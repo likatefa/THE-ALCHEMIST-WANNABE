@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alchemist — Private Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --bg-raised:#131315;
+    --ink:#e9e5dd;
+    --ink-dim:#a8a39a;
+    --steel:#8b9096;
+    --blood:#7d2323;
+    --blood-bright:#a63131;
+    --line: rgba(233,229,221,0.14);
+    --serif: 'Fraunces', serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior:smooth;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--blood); color:#fff;}
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(120% 90% at 15% 0%, #1c1c1e 0%, #0a0a0b 55%),
+      linear-gradient(180deg, #0a0a0b 0%, #0a0a0b 100%);
+  }
+  .hero-scene{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    padding: 120px 24px 64px;
+  }
+  .kicker{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    color:var(--steel);
+    margin:0 0 18px;
+  }
+  .kicker::before{
+    content:"";
+    display:inline-block;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--blood-bright);
+    margin-right:10px;
+    vertical-align:middle;
+    box-shadow:0 0 8px var(--blood-bright);
+  }
+  h1.wordmark{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(52px, 15vw, 96px);
+    letter-spacing:0.01em;
+    line-height:0.95;
+    margin:0 0 20px;
+    background:linear-gradient(180deg,#f4f1ea 0%, #c9c4ba 45%, #7d7973 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero-sub{
+    max-width:46ch;
+    font-size:17px;
+    color:var(--ink-dim);
+    font-style:italic;
+    font-family:var(--serif);
+    font-weight:400;
+    margin:0;
+  }
+  .hero-line{
+    width:100%; height:1px;
+    background:linear-gradient(90deg, var(--line), transparent);
+    margin-top:48px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{
+    padding:72px 0;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{ border-bottom:none; }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--ink-dim);
+    letter-spacing:0.06em;
+    margin:0 0 12px;
+  }
+  h2{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(28px, 5vw, 38px);
+    margin:0 0 28px;
+    max-width:18ch;
+  }
+  p.lede{
+    font-size:16px;
+    color:var(--ink-dim);
+    max-width:60ch;
+    margin:0 0 8px;
+  }
+
+  /* philosophy */
+  .principles{
+    margin-top:36px;
+    display:flex;
+    flex-direction:column;
+  }
+  .principle{
+    display:grid;
+    grid-template-columns: 64px 1fr;
+    gap:20px;
+    padding:24px 0;
+    border-top:1px solid var(--line);
+  }
+  .principle:last-child{border-bottom:1px solid var(--line);}
+  .principle .mark{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:15px;
+    color:var(--steel);
+    padding-top:2px;
+  }
+  .principle h3{
+    font-family:var(--sans);
+    font-weight:500;
+    font-size:16px;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .principle p{
+    margin:0;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    max-width:52ch;
+  }
+
+  /* framework list */
+  .framework-item{
+    padding:26px 0;
+    border-top:1px solid var(--line);
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:6px;
+  }
+  .framework-item:last-child{border-bottom:1px solid var(--line);}
+  .framework-item .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--blood-bright);
+    letter-spacing:0.08em;
+  }
+  .framework-item h3{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:20px;
+    margin:2px 0 6px;
+  }
+  .framework-item p{
+    margin:0;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    max-width:56ch;
+  }
+
+  /* sessions strip */
+  .sessions{
+    margin-top:36px;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .session{
+    background:var(--bg);
+    padding:22px 18px;
+  }
+  .session .time{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--blood-bright);
+    margin:0 0 8px;
+  }
+  .session .label{
+    font-size:13.5px;
+    color:var(--ink-dim);
+    margin:0;
+  }
+
+  /* close statement */
+  .statement{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(20px, 3.4vw, 26px);
+    line-height:1.5;
+    color:var(--ink);
+    max-width:22ch;
+  }
+  .statement span{color:var(--ink-dim);}
+
+  /* ---------- LINKS ---------- */
+  .channels{
+    margin-top:8px;
+  }
+  .channel{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:22px 0;
+    border-top:1px solid var(--line);
+    text-decoration:none;
+    color:var(--ink);
+    transition:opacity .15s ease;
+  }
+  .channel:last-child{border-bottom:1px solid var(--line);}
+  .channel:active{opacity:0.6;}
+  .channel-left{
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .channel-icon{
+    width:38px; height:38px;
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--line);
+    border-radius:50%;
+  }
+  .channel-icon svg{width:17px; height:17px;}
+  .channel-name{
+    font-family:var(--serif);
+    font-size:18px;
+    font-weight:500;
+    display:block;
+  }
+  .channel-meta{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-dim);
+    display:block;
+    margin-top:3px;
+    letter-spacing:0.03em;
+  }
+  .channel-arrow{
+    font-family:var(--mono);
+    color:var(--steel);
+    font-size:18px;
+    flex:none;
+  }
+
+  footer{
+    padding:40px 24px 48px;
+    text-align:center;
+  }
+  footer p{
+    font-family:var(--mono);
+    font-size:11px;
+    color:#55555a;
+    letter-spacing:0.04em;
+    margin:0 0 6px;
+  }
+
+  @media (max-width:520px){
+    .sessions{grid-template-columns:1fr;}
+    .principle{grid-template-columns:40px 1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <svg class="hero-scene" viewBox="0 0 800 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0a0a0b" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#0a0a0b" stop-opacity="1"/>
+      </linearGradient>
+      <linearGradient id="ridge1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#242426"/>
+        <stop offset="100%" stop-color="#141416"/>
+      </linearGradient>
+    </defs>
+    <!-- distant ridgeline shaped like a candlestick horizon -->
+    <path d="M0,560 L60,560 L60,500 L110,500 L110,540 L170,540 L170,430 L230,430 L230,510 L300,510 L300,380 L360,380 L360,470 L430,470 L430,340 L500,340 L500,460 L580,460 L580,300 L650,300 L650,440 L720,440 L720,380 L800,380 L800,900 L0,900 Z"
+      fill="url(#ridge1)" opacity="0.9"/>
+    <!-- foreground silhouette: single figure facing the vast range -->
+    <g opacity="0.96">
+      <path d="M392,560
+               C388,530 396,505 412,494
+               C424,486 440,486 452,494
+               C468,505 476,530 472,560
+               L472,610
+               C472,622 466,632 456,636
+               L456,700
+               C456,706 452,710 447,710
+               L437,710
+               C432,710 428,706 428,700
+               L428,640
+               L423,640
+               L423,700
+               C423,706 419,710 414,710
+               L404,710
+               C399,710 395,706 395,700
+               L395,636
+               C385,632 379,622 379,610
+               Z" fill="#050506"/>
+      <!-- twin blades, echoing the reference art without copying it -->
+      <path d="M472,558 L560,470 L566,478 L480,566 Z" fill="#050506"/>
+      <path d="M392,558 L304,470 L298,478 L384,566 Z" fill="#050506"/>
+    </g>
+    <!-- waterline reflection -->
+    <rect x="0" y="610" width="800" height="290" fill="#08080a"/>
+    <path d="M0,612 L800,612" stroke="#3a3a3d" stroke-width="1" opacity="0.5"/>
+    <g opacity="0.35">
+      <path d="M392,700 C388,720 396,738 412,745 C424,750 440,750 452,745 C468,738 476,720 472,700 Z" fill="#1c1c1e"/>
+    </g>
+    <rect x="0" y="0" width="800" height="900" fill="url(#fade)"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="kicker">PRIVATE ACCESS · INVITE ONLY</p>
+    <h1 class="wordmark">Alchemist</h1>
+    <p class="hero-sub">A support-and-resistance framework built to hand small retail accounts the same edge once reserved for the desks that move price against them.</p>
+    <div class="hero-line"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <p class="eyebrow">THE PREMISE</p>
+    <h2>Small accounts weren't losing to the market. They were losing to the story they were told about it.</h2>
+    <p class="lede">Most retail traders are handed indicators built for institutions with unlimited drawdown room. The Alchemist strategy strips that away and rebuilds entries around one idea: price only moves because liquidity is being taken from somewhere. Read where that liquidity sits, and a small account stops guessing and starts positioning ahead of the move — on Forex majors, metals, and synthetic indices alike.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">THE PRINCIPLES</p>
+    <h2>Four rules the whole method sits on</h2>
+    <div class="principles">
+      <div class="principle">
+        <div class="mark">I</div>
+        <div>
+          <h3>Transformation</h3>
+          <p>Every chart hides an overlooked level. The work is finding the zone the market hasn't repriced yet, before the crowd does.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="mark">II</div>
+        <div>
+          <h3>Risk first</h3>
+          <p>Entries are earned, not forced. Capital is protected before a target is ever considered.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="mark">III</div>
+        <div>
+          <h3>Adaptability</h3>
+          <p>Bias comes from the higher timeframes. When the story changes, the trade plan changes with it — never the other way round.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="mark">IV</div>
+        <div>
+          <h3>Strategic patience</h3>
+          <p>The setup comes to you. Chasing price is how small accounts become smaller accounts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">THE FRAMEWORK</p>
+    <h2>What actually gets marked on the chart</h2>
+
+    <div class="framework-item">
+      <span class="tag">STEP 01 — BIAS</span>
+      <h3>The storyline</h3>
+      <p>Monthly and weekly structure sets the narrative: is price building higher, lower, or stuck in a range? Daily then becomes the retracement that either confirms or challenges that bias before any entry is considered.</p>
+    </div>
+
+    <div class="framework-item">
+      <span class="tag">STEP 02 — LEVELS</span>
+      <h3>Support & resistance, from open and close</h3>
+      <p>Levels are drawn from candle bodies, not wicks — a bullish candle into a bearish one marks resistance, the reverse marks support. Once broken, a level flips role: resistance that fails becomes support, support that fails becomes resistance, feeding the next leg of the trend.</p>
+    </div>
+
+    <div class="framework-item">
+      <span class="tag">STEP 03 — CONFLUENCE</span>
+      <h3>Fibonacci as a second opinion</h3>
+      <p>A fresh, untested level that lines up with a key Fibonacci retracement is treated as a stronger reaction zone than either tool would suggest on its own — two independent readings agreeing on the same price.</p>
+    </div>
+
+    <div class="framework-item">
+      <span class="tag">STEP 04 — TIMING</span>
+      <h3>Dropping to the entry timeframe</h3>
+      <p>Once the higher timeframe confirms a level, the trade is timed on 4H, 1H, or 15-minute candles — watching for the reversal patterns and range breaks (structure shifts, gap fills, liquidity sweeps) that signal the level is actually holding.</p>
+    </div>
+
+    <div class="sessions">
+      <div class="session">
+        <p class="time">08:00–10:00 LONDON</p>
+        <p class="label">The killzone. Peak liquidity, where false breakouts and genuine reversals both live — traded only after Asian session highs or lows are swept.</p>
+      </div>
+      <div class="session">
+        <p class="time">13:00–15:00 NY</p>
+        <p class="label">The candle range set at the New York open is used to read direction, then retested on the lower timeframe for a precision entry.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="statement">Not a shortcut. <span>A discipline — built for the account that can't afford to guess twice.</span></p>
+  </section>
+
+  <section>
+    <p class="eyebrow">STAY CONNECTED</p>
+    <h2>Where this gets taught</h2>
+    <div class="channels">
+
+      <a class="channel" href="https://tiktok.com/@pacerfx" target="_blank" rel="noopener">
+        <div class="channel-left">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 3c.3 2 1.7 3.6 3.7 3.9v3.1c-1.4 0-2.7-.4-3.7-1.2v6.4c0 3.2-2.6 5.8-5.9 5.8S4.7 18.4 4.7 15.2c0-3.1 2.4-5.6 5.5-5.8v3.2c-1.4.2-2.4 1.3-2.4 2.6 0 1.5 1.2 2.6 2.7 2.6s2.8-1.1 2.8-2.6V3h3.2Z" stroke="#e9e5dd" stroke-width="0.6" fill="#e9e5dd"/></svg>
+          </div>
+          <div>
+            <span class="channel-name">TikTok</span>
+            <span class="channel-meta">@pacerfx</span>
+          </div>
+        </div>
+        <span class="channel-arrow">↗</span>
+      </a>
+
+      <a class="channel" href="https://youtube.com/@pacer256?si=9F9xLcrhwwdD6R13" target="_blank" rel="noopener">
+        <div class="channel-left">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 8.5s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C14.7 5 12 5 12 5s-2.7 0-5.8.2c-.5.1-1.4.1-2.3 1C3.2 6.9 3 8.5 3 8.5S2.8 10.4 2.8 12.3v1.7c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 7.6.2s2.7 0 5.8-.2c.5-.1 1.4-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.7c0-1.9-.2-3.8-.2-3.8Z" stroke="#e9e5dd" stroke-width="0.6"/><path d="M10 15.2V9.8l5 2.7-5 2.7Z" fill="#e9e5dd"/></svg>
+          </div>
+          <div>
+            <span class="channel-name">YouTube</span>
+            <span class="channel-meta">@pacer256</span>
+          </div>
+        </div>
+        <span class="channel-arrow">↗</span>
+      </a>
+
+      <a class="channel" href="https://x.com/pacers256" target="_blank" rel="noopener">
+        <div class="channel-left">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4l7 9.2L4.3 20H6l5.9-5.9L16.5 20H20l-7.4-9.8L19.8 4h-1.7l-5.4 5.4L8 4H4Z" fill="#e9e5dd"/></svg>
+          </div>
+          <div>
+            <span class="channel-name">X (Twitter)</span>
+            <span class="channel-meta">@pacers256</span>
+          </div>
+        </div>
+        <span class="channel-arrow">↗</span>
+      </a>
+
+      <a class="channel" href="https://t.me/+fgP9OdKNDcE0NDE0" target="_blank" rel="noopener">
+        <div class="channel-left">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 4.5 2.8 11.6c-.9.35-.9.9-.16 1.13l4.66 1.46 1.8 5.5c.22.6.38.85.78.85.3 0 .44-.14.6-.3l1.72-1.68 3.6 2.66c.66.36 1.14.18 1.3-.6L21.9 5.4c.24-.98-.36-1.4-1.9-.9Z" stroke="#e9e5dd" stroke-width="0.6" fill="none"/><path d="M9.3 14.2 18 8.1c.4-.28.78-.13.47.16L11.5 15c-.3.3-.6.44-1.1.44l.4-3.7Z" fill="#e9e5dd"/></svg>
+          </div>
+          <div>
+            <span class="channel-name">Telegram</span>
+            <span class="channel-meta">Private group</span>
+          </div>
+        </div>
+        <span class="channel-arrow">↗</span>
+      </a>
+
+      <a class="channel" href="https://whatsapp.com/channel/0029VbDM1qREquiG7Ssxwp38" target="_blank" rel="noopener">
+        <div class="channel-left">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.3A9 9 0 1 0 12 3Z" stroke="#e9e5dd" stroke-width="0.6"/><path d="M8.6 7.9c.2-.4.4-.4.6-.4h.5c.16 0 .38 0 .55.4.2.5.7 1.7.75 1.85.06.14.1.3 0 .48-.08.18-.13.28-.26.44-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.14.27.63 1.04 1.36 1.68.94.83 1.72 1.1 1.98 1.22.27.13.43.1.58-.06.16-.16.68-.8.87-1.07.18-.27.36-.22.6-.13.25.1 1.6.75 1.87.89.27.13.45.2.51.32.07.12.07.68-.16 1.34-.23.66-1.35 1.28-1.9 1.36-.5.08-1.14.11-1.85-.12-.42-.13-.97-.32-1.67-.63-2.94-1.28-4.86-4.23-5-4.44-.14-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46Z" fill="#e9e5dd"/></svg>
+          </div>
+          <div>
+            <span class="channel-name">WhatsApp</span>
+            <span class="channel-meta">Channel</span>
+          </div>
+        </div>
+        <span class="channel-arrow">↗</span>
+      </a>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>ALCHEMIST STRATEGY — PACERFX</p>
+  <p>Private link. Trading involves risk of loss — not financial advice.</p>
+</footer>
+
+</body>
+</html>
